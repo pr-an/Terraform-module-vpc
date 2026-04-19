@@ -7,6 +7,7 @@ resource "aws_vpc" "this" {
     Name = var.vpc_name
   })
 }
+
 resource "aws_internet_gateway" "this" {
   vpc_id = aws_vpc.this.id
 
@@ -14,6 +15,7 @@ resource "aws_internet_gateway" "this" {
     Name = "${var.vpc_name}-igw"
   })
 }
+
 resource "aws_route_table" "public" {
   vpc_id = aws_vpc.this.id
 
@@ -25,9 +27,9 @@ resource "aws_route_table" "public" {
   tags = merge(var.tags, {
     Name = "${var.vpc_name}-public-rt"
   })
+}
 
 resource "aws_route_table_association" "public" {
-  subnet_id      = aws_subnet.public.id
+  subnet_id = var.public_subnet_id
   route_table_id = aws_route_table.public.id
-}
 }
